@@ -1,0 +1,1678 @@
+{
+  "address": "3KMevqDU8As9FLQEqJQheLXUKAXoHZW5D2KfangLu3CY",
+  "metadata": {
+    "name": "legacy3",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "claim_connection_fee",
+      "discriminator": [
+        15,
+        33,
+        89,
+        190,
+        113,
+        185,
+        83,
+        150
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "connection.sender",
+                "account": "Connection"
+              },
+              {
+                "kind": "account",
+                "path": "connection.receiver",
+                "account": "Connection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "connection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_collection",
+      "discriminator": [
+        112,
+        62,
+        53,
+        139,
+        173,
+        152,
+        98,
+        93
+      ],
+      "accounts": [
+        {
+          "name": "config_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "collection",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config_token_account",
+          "docs": [
+            "CHECK - address"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config_account"
+              },
+              {
+                "kind": "account",
+                "path": "collection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata_account",
+          "docs": [
+            "CHECK - address"
+          ],
+          "writable": true
+        },
+        {
+          "name": "master_edition_account",
+          "writable": true
+        },
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_config",
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "docs": [
+            "Address to be set as protocol owner."
+          ],
+          "writable": true,
+          "signer": true,
+          "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso"
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_wallet"
+        },
+        {
+          "name": "treasury"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "connection_fee",
+          "type": "u64"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mint_nft",
+      "discriminator": [
+        211,
+        57,
+        6,
+        167,
+        15,
+        219,
+        35,
+        251
+      ],
+      "accounts": [
+        {
+          "name": "config_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  102,
+                  116,
+                  95,
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metadata_account",
+          "docs": [
+            "CHECK - address"
+          ],
+          "writable": true
+        },
+        {
+          "name": "master_edition_account",
+          "writable": true
+        },
+        {
+          "name": "collection",
+          "docs": [
+            "CHECK - address"
+          ],
+          "writable": true,
+          "relations": [
+            "config_account"
+          ]
+        },
+        {
+          "name": "user_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "relations": [
+            "config_account"
+          ]
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "pay_connection_fee",
+      "discriminator": [
+        140,
+        9,
+        241,
+        95,
+        224,
+        233,
+        10,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "sender"
+              },
+              {
+                "kind": "account",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "connection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver"
+        },
+        {
+          "name": "sender",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "refund_connection_fee",
+      "discriminator": [
+        128,
+        157,
+        80,
+        28,
+        239,
+        101,
+        131,
+        109
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "connection.sender",
+                "account": "Connection"
+              },
+              {
+                "kind": "account",
+                "path": "connection.receiver",
+                "account": "Connection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "connection_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "connection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sender"
+        },
+        {
+          "name": "operator",
+          "docs": [
+            "Address to be set as operator."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "set_role",
+      "discriminator": [
+        77,
+        78,
+        62,
+        233,
+        192,
+        61,
+        199,
+        190
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "role_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user"
+        },
+        {
+          "name": "owner",
+          "docs": [
+            "Address to be set as protocol owner."
+          ],
+          "writable": true,
+          "signer": true,
+          "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "role",
+          "type": {
+            "defined": {
+              "name": "Role"
+            }
+          }
+        },
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "update_config",
+      "discriminator": [
+        29,
+        158,
+        252,
+        191,
+        10,
+        83,
+        219,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "docs": [
+            "Address to be set as protocol owner."
+          ],
+          "writable": true,
+          "signer": true,
+          "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso"
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_fee_wallet",
+          "optional": true
+        },
+        {
+          "name": "treasury",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "connection_fee",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "price",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [
+        155,
+        12,
+        170,
+        224,
+        30,
+        250,
+        204,
+        130
+      ]
+    },
+    {
+      "name": "Connection",
+      "discriminator": [
+        209,
+        186,
+        115,
+        58,
+        36,
+        236,
+        179,
+        10
+      ]
+    },
+    {
+      "name": "RoleAccount",
+      "discriminator": [
+        142,
+        236,
+        135,
+        197,
+        214,
+        3,
+        244,
+        226
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ClaimConnectFeeEvent",
+      "discriminator": [
+        88,
+        246,
+        159,
+        160,
+        43,
+        157,
+        77,
+        140
+      ]
+    },
+    {
+      "name": "InitializeCollectionEvent",
+      "discriminator": [
+        70,
+        144,
+        253,
+        250,
+        75,
+        87,
+        235,
+        55
+      ]
+    },
+    {
+      "name": "InitializeConfigEvent",
+      "discriminator": [
+        115,
+        64,
+        125,
+        137,
+        211,
+        17,
+        190,
+        43
+      ]
+    },
+    {
+      "name": "MintNftEvent",
+      "discriminator": [
+        176,
+        112,
+        170,
+        107,
+        46,
+        35,
+        212,
+        160
+      ]
+    },
+    {
+      "name": "PayConnectFeeEvent",
+      "discriminator": [
+        79,
+        80,
+        109,
+        178,
+        105,
+        45,
+        245,
+        80
+      ]
+    },
+    {
+      "name": "RefundConnectFeeEvent",
+      "discriminator": [
+        35,
+        96,
+        10,
+        223,
+        253,
+        163,
+        208,
+        33
+      ]
+    },
+    {
+      "name": "SetRoleEvent",
+      "discriminator": [
+        153,
+        146,
+        95,
+        123,
+        29,
+        113,
+        211,
+        16
+      ]
+    },
+    {
+      "name": "UpdateConfigEvent",
+      "discriminator": [
+        96,
+        112,
+        253,
+        102,
+        59,
+        78,
+        75,
+        134
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidFeeWallet",
+      "msg": "Invalid fee wallet"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTreasury",
+      "msg": "Invalid treasury"
+    },
+    {
+      "code": 6003,
+      "name": "ConnectionFeeTooHigh",
+      "msg": "Connection fee too high"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidPrice",
+      "msg": "Connection price"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidConnectionStatus",
+      "msg": "Invalid connection status"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidSolAmount",
+      "msg": "Invalid sol amount"
+    },
+    {
+      "code": 6007,
+      "name": "CollectionAlreadyInitialized",
+      "msg": "Collection already initialized"
+    }
+  ],
+  "types": [
+    {
+      "name": "ClaimConnectFeeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "connection",
+            "type": "pubkey"
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "receiver",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "connection_status",
+            "type": {
+              "defined": {
+                "name": "ConnectionStatus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "Config version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump to identify PDA"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "collection",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "connection_fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Connection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "Connection version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump to identify PDA"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "vault_bump",
+            "type": "u8"
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "receiver",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "ConnectionStatus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConnectionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Opened"
+          },
+          {
+            "name": "Connected"
+          },
+          {
+            "name": "Refunded"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeCollectionEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collection",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "collection_name",
+            "type": "string"
+          },
+          {
+            "name": "collection_symbol",
+            "type": "string"
+          },
+          {
+            "name": "collection_uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeConfigEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "config",
+            "type": "pubkey"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "connection_fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintNftEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "nft_name",
+            "type": "string"
+          },
+          {
+            "name": "nft_symbol",
+            "type": "string"
+          },
+          {
+            "name": "nft_uri",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayConnectFeeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "connection",
+            "type": "pubkey"
+          },
+          {
+            "name": "connection_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "receiver",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "connection_status",
+            "type": {
+              "defined": {
+                "name": "ConnectionStatus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RefundConnectFeeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "connection",
+            "type": "pubkey"
+          },
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "connection_status",
+            "type": {
+              "defined": {
+                "name": "ConnectionStatus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Role",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Operator"
+          },
+          {
+            "name": "Minter"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoleAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "docs": [
+              "User pubkey associated with the role"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "role",
+            "docs": [
+              "Role of the user"
+            ],
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "active",
+            "docs": [
+              "Flag to control if the role is active"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump to identify PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetRoleEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "role",
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "config",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateConfigEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "config",
+            "type": "pubkey"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "connection_fee",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "CONFIG_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 102, 105, 103, 95, 115, 101, 101, 100]"
+    },
+    {
+      "name": "CONFIG_TOKEN_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 102, 105, 103, 95, 116, 111, 107, 101, 110, 95, 115, 101, 101, 100]"
+    },
+    {
+      "name": "CONNECTION_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 110, 101, 99, 116, 105, 111, 110, 95, 115, 101, 101, 100]"
+    },
+    {
+      "name": "CONNECTION_VAULT_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 110, 101, 99, 116, 105, 111, 110, 95, 118, 97, 117, 108, 116, 95, 115, 101, 101, 100]"
+    },
+    {
+      "name": "EDITION",
+      "type": "string",
+      "value": "\"edition\""
+    },
+    {
+      "name": "NFT_MINT_SEED",
+      "type": "bytes",
+      "value": "[110, 102, 116, 95, 109, 105, 110, 116, 95, 115, 101, 101, 100]"
+    },
+    {
+      "name": "PREFIX",
+      "type": "string",
+      "value": "\"metadata\""
+    },
+    {
+      "name": "ROLE_SEED",
+      "type": "bytes",
+      "value": "[114, 111, 108, 101, 95, 115, 101, 101, 100]"
+    }
+  ]
+}
