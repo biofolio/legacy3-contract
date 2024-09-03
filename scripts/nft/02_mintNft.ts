@@ -16,7 +16,7 @@ const user1 = anchor.web3.Keypair.fromSecretKey(
 
   const legacy3 = new Legacy3(connection, DEVNET.PROGRAM_ID);
 
-  const name = 'Legacy3 Collection';
+  const name = 'Justin8129';
   const symbol = 'LEGACY3';
   const uri = '';
 

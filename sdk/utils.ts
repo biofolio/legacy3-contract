@@ -279,6 +279,7 @@ export async function createAndSendV0Tx(
   txInstructions: anchor.web3.TransactionInstruction[],
   addressLookupTableAccounts?: anchor.web3.AddressLookupTableAccount[],
   confirmed: boolean = false,
+  signTransaction?: any,
 ) {
   // Step 1 - Fetch Latest Blockhash
   try {
@@ -298,7 +299,11 @@ export async function createAndSendV0Tx(
     const transaction = new anchor.web3.VersionedTransaction(messageV0);
 
     // Step 3 - Sign your transaction with the required Signers
-    transaction.sign([...signers]);
+    if (signTransaction) {
+      await signTransaction(transaction);
+    } else {
+      transaction.sign([...signers]);
+    }
     console.log('   ✅ - Transaction Signed');
 
     const simulateTx = await connection.simulateTransaction(transaction, {
