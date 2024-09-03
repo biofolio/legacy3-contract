@@ -262,6 +262,7 @@ export class Legacy3 {
     const collection = anchor.web3.Keypair.generate();
     const configTokenAccount = getConfigTokenAccountPubKey(
       this.program,
+      this.configPubkey,
       collection.publicKey,
     );
     const metadataAccount = this.metaplex
@@ -311,7 +312,7 @@ export class Legacy3 {
     const mint = getNftMintPubKey(this.program, name);
 
     const mintInfo = await this.connection.getParsedAccountInfo(mint);
-    if (mintInfo) {
+    if (mintInfo?.value) {
       throw new Error(`This nft ${name} has been mint - ${mint.toBase58()}`);
     }
 

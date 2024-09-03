@@ -63,10 +63,11 @@ export const getConnectionVaultPubKey = (
 
 export const getConfigTokenAccountPubKey = (
   program: Program<Legacy3Type>,
+  config: PublicKey,
   collection: PublicKey,
 ) => {
   return anchor.web3.PublicKey.findProgramAddressSync(
-    [getSeed('configTokenSeed', program), collection.toBuffer()],
+    [getSeed('configTokenSeed', program), config.toBuffer(), collection.toBuffer()],
     program.programId,
   )[0];
 };
@@ -76,7 +77,7 @@ export const getNftMintPubKey = (
   nftName: string,
 ) => {
   return anchor.web3.PublicKey.findProgramAddressSync(
-    [getSeed('configTokenSeed', program), Buffer.from(nftName)],
+    [getSeed('nftMintSeed', program), Buffer.from(nftName)],
     program.programId,
   )[0];
 };
