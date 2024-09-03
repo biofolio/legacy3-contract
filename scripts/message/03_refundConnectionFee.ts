@@ -36,7 +36,7 @@ const user2 = anchor.web3.Keypair.fromSecretKey(
   // Step 3 - Generate a transaction and send it to the network
   const { txHash } = await createAndSendV0Tx(
     connection,
-    operator,
+    operator.publicKey,
     [operator],
     [ix],
     [],

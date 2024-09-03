@@ -274,7 +274,7 @@ export async function sendTransaction(data: string, isMainnet: boolean = true) {
 
 export async function createAndSendV0Tx(
   connection: anchor.web3.Connection,
-  payer: anchor.web3.Keypair,
+  payer: anchor.web3.PublicKey,
   signers: anchor.web3.Keypair[],
   txInstructions: anchor.web3.TransactionInstruction[],
   addressLookupTableAccounts?: anchor.web3.AddressLookupTableAccount[],
@@ -291,7 +291,7 @@ export async function createAndSendV0Tx(
 
     // Step 2 - Generate Transaction Message
     const messageV0 = new anchor.web3.TransactionMessage({
-      payerKey: payer.publicKey,
+      payerKey: payer,
       recentBlockhash: latestBlockhash.blockhash,
       instructions: txInstructions,
     }).compileToV0Message(addressLookupTableAccounts);
