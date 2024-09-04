@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/legacy3.json`.
  */
 export type Legacy3Type = {
-  "address": "3KMevqDU8As9FLQEqJQheLXUKAXoHZW5D2KfangLu3CY",
+  "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso",
   "metadata": {
     "name": "legacy3",
     "version": "0.1.0",
@@ -528,6 +528,40 @@ export type Legacy3Type = {
           "signer": true
         },
         {
+          "name": "roleAccount",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "configAccount"
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         },
@@ -560,6 +594,10 @@ export type Legacy3Type = {
         {
           "name": "uri",
           "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
         }
       ]
     },

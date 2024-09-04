@@ -1,5 +1,5 @@
 {
-  "address": "3KMevqDU8As9FLQEqJQheLXUKAXoHZW5D2KfangLu3CY",
+  "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso",
   "metadata": {
     "name": "legacy3",
     "version": "0.1.0",
@@ -522,6 +522,40 @@
           "signer": true
         },
         {
+          "name": "role_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config_account"
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
         },
@@ -554,6 +588,10 @@
         {
           "name": "uri",
           "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
         }
       ]
     },

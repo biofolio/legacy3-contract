@@ -163,11 +163,11 @@ export class Legacy3 {
   async setRole(
     owner: anchor.web3.PublicKey,
     user: anchor.web3.PublicKey,
-    role: 'operator',
+    role: anchor.IdlTypes<Legacy3Type>['role'],
     isActive: boolean,
   ): Promise<anchor.web3.TransactionInstruction> {
     const ix = await this.program.methods
-      .setRole({ [role]: {} }, isActive)
+      .setRole(role, isActive)
       .accountsStrict({
         owner,
         user,
@@ -293,10 +293,12 @@ export class Legacy3 {
   }
 
   async mintNft(
+    operator: anchor.web3.PublicKey,
     user: anchor.web3.PublicKey,
     name: string,
     symbol: string,
     uri: string,
+    price: anchor.BN,
   ): Promise<anchor.web3.TransactionInstruction> {
     if (!this.configData) {
       await this.bootstrap();
@@ -331,11 +333,11 @@ export class Legacy3 {
     //   throw new Error(`This user ${user} has been mint nft`);
     // }
 
-    // const roleAccount = getRolePubKey(
-    //   this.program,
-    //   this.configPubkey,
-    //   operator,
-    // );
+    const roleAccount = getRolePubKey(
+      this.program,
+      this.configPubkey,
+      operator,
+    );
     const metadataAccount = this.metaplex
       .nfts()
       .pdas()
@@ -374,7 +376,7 @@ export class Legacy3 {
       },
     ];
     const ix = await this.program.methods
-      .mintNft(name, symbol, uri)
+      .mintNft(name, symbol, uri, price)
       .accountsStrict({
         configAccount: this.configPubkey,
         mint: mint,
@@ -384,8 +386,8 @@ export class Legacy3 {
         userTokenAccount: userTokenAccount,
         treasury: this.configData.treasury,
         user: user,
-        // roleAccount: roleAccount,
-        // operator: operator,
+        roleAccount: roleAccount,
+        operator: operator,
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
