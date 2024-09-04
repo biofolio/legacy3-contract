@@ -75,7 +75,8 @@ pub mod legacy3 {
         name: String,
         symbol: String,
         uri: String,
+        price: u64,
     ) -> Result<()> {
-        handler_mint_nft(ctx, name, symbol, uri)
+        handler_mint_nft(ctx, name, symbol, uri, price)
     }
 }

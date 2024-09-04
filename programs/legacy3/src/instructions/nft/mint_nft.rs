@@ -13,11 +13,11 @@ use anchor_spl::{
 };
 
 use crate::{
-    constants::{CONFIG_SEED, NFT_MINT_SEED},
+    constants::{CONFIG_SEED, NFT_MINT_SEED, ROLE_SEED},
     errors::CustomError,
     event::MintNftEvent,
     utils::{find_master_edition_account, find_metadata_account, transfer_native_to_account},
-    Config,
+    Config, Role, RoleAccount,
 };
 
 #[derive(Accounts)]
@@ -75,15 +75,15 @@ pub struct MintNft<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
 
-    // #[account(
-    //     seeds = [ROLE_SEED, config_account.key().as_ref(), operator.key().as_ref()],
-    //     bump = role_account.bump,
-    //     constraint = role_account.user == operator.key() @ CustomError::Unauthorized,
-    // )]
-    // pub role_account: Box<Account<'info, RoleAccount>>,
+    #[account(
+        seeds = [ROLE_SEED, config_account.key().as_ref(), operator.key().as_ref()],
+        bump = role_account.bump,
+        constraint = role_account.user == operator.key() @ CustomError::Unauthorized,
+    )]
+    pub role_account: Box<Account<'info, RoleAccount>>,
 
-    // #[account(mut, constraint = role_account.role == Role::Minter @ CustomError::Unauthorized)]
-    // pub operator: Signer<'info>,
+    #[account(mut, constraint = role_account.role == Role::Minter @ CustomError::Unauthorized)]
+    pub operator: Signer<'info>,
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
@@ -96,15 +96,16 @@ pub fn handler_mint_nft<'info>(
     name: String,
     symbol: String,
     uri: String,
+    price: u64,
 ) -> Result<()> {
-    let config_account = &mut *ctx.accounts.config_account;
+    let config_account = &*ctx.accounts.config_account;
     // charge mint fee
-    if config_account.price > 0 {
+    if price > 0 {
         transfer_native_to_account(
             ctx.accounts.user.to_account_info(),
             ctx.accounts.treasury.to_account_info(),
             ctx.accounts.system_program.to_account_info(),
-            config_account.price,
+            price,
             None,
         )?;
     }
@@ -245,7 +246,7 @@ pub fn handler_mint_nft<'info>(
         nft_name: name,
         nft_symbol: symbol,
         nft_uri: uri,
-        price: config_account.price,
+        price: price,
     });
 
     Ok(())
