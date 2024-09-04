@@ -400,6 +400,19 @@ export class Legacy3 {
     return ix;
   }
 
+  async donateSol(
+    user: anchor.web3.PublicKey,
+    recipient: anchor.web3.PublicKey,
+    solAmount: anchor.BN,
+  ) {
+    const transferIx = anchor.web3.SystemProgram.transfer({
+      fromPubkey: user,
+      toPubkey: recipient,
+      lamports: BigInt(solAmount.toString()),
+    });
+    return transferIx;
+  }
+
   async watchTransaction(txHash: string) {
     const confirmation = await this.connection.confirmTransaction(
       txHash,
