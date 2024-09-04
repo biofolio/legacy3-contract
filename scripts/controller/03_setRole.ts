@@ -15,6 +15,10 @@ const operator = anchor.web3.Keypair.fromSecretKey(
   Uint8Array.from(require('../.keys/operator.json')),
 );
 
+const mintOperator = anchor.web3.Keypair.fromSecretKey(
+  Uint8Array.from(require('../.keys/mintOperator.json')),
+);
+
 (async () => {
   const connection = new anchor.web3.Connection(rpc);
 
@@ -26,7 +30,7 @@ const operator = anchor.web3.Keypair.fromSecretKey(
 
   const ix = await legacy3.setRole(
     owner.publicKey,
-    operator.publicKey,
+    mintOperator.publicKey,
     role,
     isActive,
   );

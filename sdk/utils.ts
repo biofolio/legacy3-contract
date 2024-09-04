@@ -361,6 +361,7 @@ export async function createAndSendV0Tx(
 
 export async function createAndSerializeV0Tx(
   connection: anchor.web3.Connection,
+  payer: anchor.web3.PublicKey,
   signer: anchor.web3.Keypair,
   txInstructions: anchor.web3.TransactionInstruction[],
   addressLookupTableAccounts?: anchor.web3.AddressLookupTableAccount[],
@@ -376,7 +377,7 @@ export async function createAndSerializeV0Tx(
 
     // Step 2 - Generate Transaction Message
     const messageV0 = new anchor.web3.TransactionMessage({
-      payerKey: signer.publicKey,
+      payerKey: payer,
       recentBlockhash: latestBlockhash.blockhash,
       instructions: txInstructions,
     }).compileToV0Message(addressLookupTableAccounts);
@@ -433,8 +434,6 @@ export async function signAndSendTx(
 
   if (signTransaction) {
     transaction = await signTransaction(transaction);
-  } else {
-    transaction.sign(signers);
   }
 
   const simulateTx = await connection.simulateTransaction(transaction, {

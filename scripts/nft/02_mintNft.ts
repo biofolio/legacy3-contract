@@ -49,6 +49,7 @@ const user1 = anchor.web3.Keypair.fromSecretKey(
 
   const { serialized_tx, signatures } = await createAndSerializeV0Tx(
     connection,
+    user1.publicKey,
     operator,
     [...computeIxs, ix],
     [],
