@@ -12,7 +12,8 @@ url = "https://api.apr.dev"
 
 [provider]
 # cluster = "Localnet"
-cluster = "https://divine-compatible-gas.solana-devnet.quiknode.pro/a87fea433fe4bef41c0b33281901aaad7d027214/"
+cluster = "https://api.devnet.solana.com"
+# cluster = "https://divine-compatible-gas.solana-devnet.quiknode.pro/a87fea433fe4bef41c0b33281901aaad7d027214/"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

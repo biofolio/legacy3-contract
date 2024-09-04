@@ -12,7 +12,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 
-// import { ed25519 } from '@noble/curves/ed25519';
+import { ed25519 } from '@noble/curves/ed25519';
 
 export const SEND_RPC_TRANSACTIONS_MAINNET = [
   'https://mainnet.block-engine.jito.wtf/api/v1/transactions',
@@ -26,8 +26,10 @@ export const SEND_RPC_TRANSACTIONS_DEVNET = [
   'https://api.devnet.solana.com',
 ];
 
-// export const sign = (message: Parameters<typeof ed25519.sign>[0], secretKey: any) =>
-//   ed25519.sign(message, secretKey.slice(0, 32));
+export const sign = (
+  message: Parameters<typeof ed25519.sign>[0],
+  secretKey: any,
+) => ed25519.sign(message, secretKey.slice(0, 32));
 
 export async function accountExist(
   connection: anchor.web3.Connection,
@@ -266,7 +268,7 @@ export async function sendTransaction(data: string, isMainnet: boolean = true) {
       const end2 = new Date().getTime();
       console.log('🚀 ~ sendTransaction ~ end2 - start', end2 - start);
     } catch (e) {
-      console.log('[sendTransaction] e', e); // console by M-MON
+      console.log('[sendTransaction] e', e);
       reject('Send transaction error: ');
     }
   });
@@ -296,11 +298,11 @@ export async function createAndSendV0Tx(
       instructions: txInstructions,
     }).compileToV0Message(addressLookupTableAccounts);
     console.log('   ✅ - Compiled transaction message');
-    const transaction = new anchor.web3.VersionedTransaction(messageV0);
+    let transaction = new anchor.web3.VersionedTransaction(messageV0);
 
     // Step 3 - Sign your transaction with the required Signers
     if (signTransaction) {
-      await signTransaction(transaction);
+      transaction = await signTransaction(transaction);
     } else {
       transaction.sign([...signers]);
     }
@@ -326,7 +328,7 @@ export async function createAndSendV0Tx(
 
     const txhash = await sendTransaction(txh, isMainnet).catch((e) => {
       console.log(e.getLogs());
-      console.log('e', e); // console by M-MON
+      console.log('e', e);
     });
 
     // Step 5 - Confirm Transaction
@@ -357,51 +359,104 @@ export async function createAndSendV0Tx(
   }
 }
 
-// export async function createAndSerializeV0Tx(
-//   connection: anchor.web3.Connection,
-//   signer: anchor.web3.Keypair,
-//   txInstructions: anchor.web3.TransactionInstruction[],
-//   addressLookupTableAccounts?: anchor.web3.AddressLookupTableAccount[],
-//   commitment: anchor.web3.Commitment = 'confirmed',
-// ) {
-//   // Step 1 - Fetch Latest Blockhash
-//   try {
-//     const latestBlockhash = await connection.getLatestBlockhash(commitment);
-//     console.log('   ✅ - Fetched latest blockhash. Last valid height:', latestBlockhash.lastValidBlockHeight);
+export async function createAndSerializeV0Tx(
+  connection: anchor.web3.Connection,
+  signer: anchor.web3.Keypair,
+  txInstructions: anchor.web3.TransactionInstruction[],
+  addressLookupTableAccounts?: anchor.web3.AddressLookupTableAccount[],
+  commitment: anchor.web3.Commitment = 'finalized',
+) {
+  // Step 1 - Fetch Latest Blockhash
+  try {
+    const latestBlockhash = await connection.getLatestBlockhash(commitment);
+    console.log(
+      '   ✅ - Fetched latest blockhash. Last valid height:',
+      latestBlockhash.lastValidBlockHeight,
+    );
 
-//     // Step 2 - Generate Transaction Message
-//     const messageV0 = new anchor.web3.TransactionMessage({
-//       payerKey: signer.publicKey,
-//       recentBlockhash: latestBlockhash.blockhash,
-//       instructions: txInstructions,
-//     }).compileToV0Message(addressLookupTableAccounts);
-//     console.log('   ✅ - Compiled transaction message');
-//     const transaction = new anchor.web3.VersionedTransaction(messageV0);
+    // Step 2 - Generate Transaction Message
+    const messageV0 = new anchor.web3.TransactionMessage({
+      payerKey: signer.publicKey,
+      recentBlockhash: latestBlockhash.blockhash,
+      instructions: txInstructions,
+    }).compileToV0Message(addressLookupTableAccounts);
+    console.log('   ✅ - Compiled transaction message');
+    const transaction = new anchor.web3.VersionedTransaction(messageV0);
 
-//     const signature = {
-//       [signer.publicKey.toString()]: Buffer.from(sign(transaction.message.serialize(), signer.secretKey)).toString(
-//         'base64',
-//       ),
-//     };
+    const signatures = {
+      [signer.publicKey.toString()]: Buffer.from(
+        sign(transaction.message.serialize(), signer.secretKey),
+      ).toString('base64'),
+    };
 
-//     console.log('transaction size', transaction.serialize().length);
+    console.log('transaction size', transaction.serialize().length);
 
-//     // Step 4 - Send our v0 transaction to the cluster
-//     const serialized_tx = Buffer.from(transaction.serialize()).toString('base64');
+    // Step 4 - Send our v0 transaction to the cluster
+    const serialized_tx = Buffer.from(transaction.serialize()).toString(
+      'base64',
+    );
 
-//     return {
-//       message: 'Transaction serialized successfully!',
-//       serialized_tx,
-//       signature,
-//     };
-//   } catch (e: any) {
-//     const onlyDirectRoutes = e?.toString()?.includes('RangeError: encoding overruns Uint8Array');
-//     return {
-//       message: 'Transaction failed.',
-//       onlyDirectRoutes,
-//     };
-//   }
-// }
+    return {
+      message: 'Transaction serialized successfully!',
+      serialized_tx,
+      signatures,
+    };
+  } catch (e: any) {
+    console.log('[createAndSerializeV0Tx] [ERROR]', e);
+    return {
+      message: 'Transaction failed.',
+      serialized_tx: '',
+      signatures: {},
+    };
+  }
+}
+
+export async function signAndSendTx(
+  connection: anchor.web3.Connection,
+  serialized_tx: string,
+  signatures: {
+    [key: string]: string;
+  },
+  signTransaction?: any,
+  signers: anchor.web3.Keypair[] = [],
+) {
+  let transaction = anchor.web3.VersionedTransaction.deserialize(
+    Buffer.from(serialized_tx!!, 'base64'),
+  );
+  Object.keys(signatures).forEach((key) => {
+    console.log('key', key);
+    transaction.addSignature(
+      new anchor.web3.PublicKey(key),
+      Buffer.from(signatures[key], 'base64'),
+    );
+  });
+
+  if (signTransaction) {
+    transaction = await signTransaction(transaction);
+  } else {
+    transaction.sign(signers);
+  }
+
+  const simulateTx = await connection.simulateTransaction(transaction, {
+    sigVerify: true,
+    commitment: 'processed',
+  });
+
+  if (simulateTx.value.err) {
+    console.log(JSON.stringify(simulateTx, null, 2));
+  }
+
+  const txh = Buffer.from(transaction.serialize()).toString('base64');
+
+  const isMainnet = connection.rpcEndpoint.includes('mainnet');
+
+  const txhash = await sendTransaction(txh, isMainnet).catch((e) => {
+    console.log(e.getLogs());
+    console.log('e', e);
+  });
+
+  return txhash;
+}
 
 export const checkIfTokenAccountExists = async (
   connection: anchor.web3.Connection,
