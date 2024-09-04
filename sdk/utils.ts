@@ -257,10 +257,10 @@ export async function sendTransaction(data: string, isMainnet: boolean = true) {
       await Promise.all(
         SEND_RPC_TRANSACTIONS.map(async (rpc) => {
           const tx = await sendTransactionRpc(rpc, data);
-          if (!txhash) {
+          if (!txhash && tx) {
             const end = new Date().getTime();
             console.log('🚀 ~ sendTransaction ~ end - start', end - start);
-            txhash = tx!!;
+            txhash = tx;
             resolve(txhash);
           }
         }),
@@ -434,6 +434,8 @@ export async function signAndSendTx(
 
   if (signTransaction) {
     transaction = await signTransaction(transaction);
+  } else {
+    transaction.sign([...signers]);
   }
 
   const simulateTx = await connection.simulateTransaction(transaction, {

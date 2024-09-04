@@ -12,7 +12,7 @@ const rpc =
 
 // const owner = anchor.web3.Keypair.fromSecretKey(Uint8Array.from(require('../../deployer.json'))); // mainnet
 const operator = anchor.web3.Keypair.fromSecretKey(
-  Uint8Array.from(require('../.keys/operator.json')),
+  Uint8Array.from(require('../.keys/mintOperator.json')),
 ); // devnet
 const user1 = anchor.web3.Keypair.fromSecretKey(
   Uint8Array.from(require('../.keys/user1.json')),
@@ -24,7 +24,7 @@ const user1 = anchor.web3.Keypair.fromSecretKey(
   // ================= BE used code =================
   const legacy3 = new Legacy3(connection, DEVNET.PROGRAM_ID);
 
-  const name = 'Justin8129';
+  const name = 'Justin812911';
   const symbol = 'LEGACY3';
   const uri = '';
   const price = new anchor.BN(0.5 * anchor.web3.LAMPORTS_PER_SOL); // 0.5 SOL
