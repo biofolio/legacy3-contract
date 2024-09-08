@@ -180,6 +180,7 @@ export class Legacy3 {
   }
 
   async payConnectionFee(
+    operator: anchor.web3.PublicKey,
     sender: anchor.web3.PublicKey,
     receiver: anchor.web3.PublicKey,
     solAmount: anchor.BN,
@@ -193,11 +194,13 @@ export class Legacy3 {
       .payConnectionFee(solAmount)
       .accountsStrict({
         config: this.configPubkey,
+        roleAccount: getRolePubKey(this.program, this.configPubkey, operator),
         connection: connectionPubkey,
         connectionVault: getConnectionVaultPubKey(
           this.program,
           connectionPubkey,
         ),
+        operator,
         receiver,
         sender,
         systemProgram: anchor.web3.SystemProgram.programId,

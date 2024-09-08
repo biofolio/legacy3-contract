@@ -1,5 +1,9 @@
 use crate::{
-    constants::{CONFIG_SEED, CONNECTION_SEED, CONNECTION_VAULT_SEED}, errors::CustomError, event::PayConnectFeeEvent, utils::transfer_native_to_account, Config, Connection, ConnectionStatus, RoleAccount
+    constants::{CONFIG_SEED, CONNECTION_SEED, CONNECTION_VAULT_SEED, ROLE_SEED},
+    errors::CustomError,
+    event::PayConnectFeeEvent,
+    utils::transfer_native_to_account,
+    Config, Connection, ConnectionStatus, Role, RoleAccount,
 };
 use anchor_lang::prelude::*;
 
@@ -11,6 +15,13 @@ pub struct PayConnectionFee<'info> {
         bump = config.bump,
     )]
     pub config: Box<Account<'info, Config>>,
+
+    #[account(
+        seeds = [ROLE_SEED, config.key().as_ref(), operator.key().as_ref()],
+        bump = role_account.bump,
+        constraint = role_account.user == operator.key() @ CustomError::Unauthorized,
+    )]
+    pub role_account: Box<Account<'info, RoleAccount>>,
 
     #[account(
         init_if_needed,
@@ -37,6 +48,9 @@ pub struct PayConnectionFee<'info> {
     /// CHECK: This is not dangerous because this account use to write into connection
     #[account(constraint = receiver.data_is_empty())]
     pub receiver: AccountInfo<'info>,
+
+    #[account(mut, constraint = role_account.role == Role::Operator @ CustomError::Unauthorized)]
+    pub operator: Signer<'info>,
 
     #[account(mut)]
     pub sender: Signer<'info>,

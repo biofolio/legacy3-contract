@@ -638,6 +638,35 @@ export type Legacy3Type = {
           }
         },
         {
+          "name": "roleAccount",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  108,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config"
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
           "name": "connection",
           "writable": true,
           "pda": {
@@ -713,6 +742,11 @@ export type Legacy3Type = {
         },
         {
           "name": "receiver"
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
         },
         {
           "name": "sender",
