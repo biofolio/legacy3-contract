@@ -9,7 +9,7 @@ crate-type = ["cdylib", "lib"]
 name = "legacy3"
 
 [features]
-default = ["devnet"]
+default = []
 devnet = []
 cpi = ["no-entrypoint"]
 no-entrypoint = []
