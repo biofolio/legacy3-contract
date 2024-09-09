@@ -6,3 +6,6 @@ pub use claim_connect_fee::*;
 
 pub mod refund_connect_fee;
 pub use refund_connect_fee::*;
+
+pub mod donate;
+pub use donate::*;

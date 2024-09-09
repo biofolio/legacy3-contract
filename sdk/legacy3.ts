@@ -405,14 +405,19 @@ export class Legacy3 {
 
   async donateSol(
     user: anchor.web3.PublicKey,
-    recipient: anchor.web3.PublicKey,
+    receiver: anchor.web3.PublicKey,
     solAmount: anchor.BN,
   ) {
-    const transferIx = anchor.web3.SystemProgram.transfer({
-      fromPubkey: user,
-      toPubkey: recipient,
-      lamports: BigInt(solAmount.toString()),
-    });
+    const transferIx = await this.program.methods
+      .donate(solAmount)
+      .accountsStrict({
+        config: this.configPubkey,
+        sender: user,
+        receiver: receiver,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .instruction();
+
     return transferIx;
   }
 

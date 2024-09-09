@@ -79,4 +79,8 @@ pub mod legacy3 {
     ) -> Result<()> {
         handler_mint_nft(ctx, name, symbol, uri, price)
     }
+
+    pub fn donate(ctx: Context<Donate>, sol_amount: u64) -> Result<()> {
+        handler_donate(ctx, sol_amount)
+    }
 }

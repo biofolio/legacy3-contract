@@ -149,3 +149,20 @@ export const parseMintNft = (events: any[]) => {
       };
     });
 };
+
+export const parseDonate = (events: any[]) => {
+  return events
+    .filter((event) => event?.name === 'donateEvent')
+    .map((event) => {
+      const data = event?.data;
+      return {
+        event_name: event.name,
+        version: data?.version,
+        sender: data?.sender?.toString(),
+        receiver: data?.receiver?.toString(),
+        sol_amount: data?.solAmount?.toString(),
+        tx_hash: event?.signature?.toString(),
+        block_number: event.blockTime,
+      };
+    });
+};

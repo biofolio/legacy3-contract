@@ -138,6 +138,62 @@ export type Legacy3Type = {
       "args": []
     },
     {
+      "name": "donate",
+      "discriminator": [
+        121,
+        186,
+        218,
+        211,
+        73,
+        70,
+        196,
+        180
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver"
+        },
+        {
+          "name": "sender",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "solAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "initializeCollection",
       "discriminator": [
         112,
@@ -1149,6 +1205,19 @@ export type Legacy3Type = {
       ]
     },
     {
+      "name": "donateEvent",
+      "discriminator": [
+        108,
+        195,
+        128,
+        89,
+        65,
+        3,
+        166,
+        91
+      ]
+    },
+    {
       "name": "initializeCollectionEvent",
       "discriminator": [
         70,
@@ -1420,6 +1489,30 @@ export type Legacy3Type = {
           },
           {
             "name": "refunded"
+          }
+        ]
+      }
+    },
+    {
+      "name": "donateEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "receiver",
+            "type": "pubkey"
+          },
+          {
+            "name": "solAmount",
+            "type": "u64"
           }
         ]
       }

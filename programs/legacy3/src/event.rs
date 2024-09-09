@@ -81,3 +81,11 @@ pub struct MintNftEvent {
     pub nft_uri: String,
     pub price: u64,
 }
+
+#[event]
+pub struct DonateEvent {
+    pub version: u8,
+    pub sender: Pubkey,
+    pub receiver: Pubkey,
+    pub sol_amount: u64,
+}
