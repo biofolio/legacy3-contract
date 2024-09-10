@@ -168,7 +168,8 @@
           }
         },
         {
-          "name": "receiver"
+          "name": "receiver",
+          "writable": true
         },
         {
           "name": "sender",

@@ -174,7 +174,8 @@ export type Legacy3Type = {
           }
         },
         {
-          "name": "receiver"
+          "name": "receiver",
+          "writable": true
         },
         {
           "name": "sender",

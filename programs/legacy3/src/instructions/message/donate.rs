@@ -15,7 +15,7 @@ pub struct Donate<'info> {
     pub config: Box<Account<'info, Config>>,
 
     /// CHECK: This is not dangerous because this account use to write into connection
-    #[account(constraint = receiver.data_is_empty())]
+    #[account(mut, constraint = receiver.data_is_empty())]
     pub receiver: AccountInfo<'info>,
 
     #[account(mut)]
