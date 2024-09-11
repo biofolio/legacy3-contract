@@ -300,6 +300,22 @@ export async function createAndSendV0Tx(
     console.log('   ✅ - Compiled transaction message');
     let transaction = new anchor.web3.VersionedTransaction(messageV0);
 
+    const simulateTx = await connection.simulateTransaction(transaction, {
+      sigVerify: false,
+      commitment: 'processed',
+    });
+
+    if (simulateTx.value.err) {
+      console.log(JSON.stringify(simulateTx, null, 2));
+      throw new anchor.web3.SendTransactionError({
+        action: 'simulate',
+        signature: '',
+        transactionMessage: simulateTx.value.err.toString(),
+        logs: simulateTx.value.logs ?? [],
+      });
+    }
+    console.log('transaction size', transaction.serialize().length);
+
     // Step 3 - Sign your transaction with the required Signers
     if (signTransaction) {
       transaction = await signTransaction(transaction);
@@ -307,17 +323,6 @@ export async function createAndSendV0Tx(
       transaction.sign([...signers]);
     }
     console.log('   ✅ - Transaction Signed');
-
-    const simulateTx = await connection.simulateTransaction(transaction, {
-      sigVerify: true,
-      commitment: 'processed',
-    });
-
-    if (simulateTx.value.err) {
-      console.log(JSON.stringify(simulateTx, null, 2));
-    }
-
-    console.log('transaction size', transaction.serialize().length);
 
     // process.exit();
 
