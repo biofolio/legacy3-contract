@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/legacy3.json`.
  */
 export type Legacy3Type = {
-  "address": "6UuZRxtnqQJqtTy98gAZGbg59TF5VyNETPxnubQgXwso",
+  "address": "3KMevqDU8As9FLQEqJQheLXUKAXoHZW5D2KfangLu3CY",
   "metadata": {
     "name": "legacy3",
     "version": "0.1.0",

@@ -28,7 +28,7 @@ pub struct PayConnectionFee<'info> {
         payer = sender,
         seeds = [CONNECTION_SEED, sender.key().as_ref(), receiver.key().as_ref()],
         bump,
-        space = 8 + RoleAccount::INIT_SPACE,
+        space = 8 + Connection::INIT_SPACE,
         constraint = connection.status == ConnectionStatus::Opened || connection.status == ConnectionStatus::Refunded @ CustomError::InvalidConnectionStatus,
         constraint = sol_amount > 0 @ CustomError::InvalidSolAmount,
     )]

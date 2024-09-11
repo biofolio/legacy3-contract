@@ -82,7 +82,7 @@ pub struct MintNft<'info> {
     )]
     pub role_account: Box<Account<'info, RoleAccount>>,
 
-    #[account(mut, constraint = role_account.role == Role::Minter @ CustomError::Unauthorized)]
+    #[account(mut, constraint = role_account.role == Role::Operator @ CustomError::Unauthorized)]
     pub operator: Signer<'info>,
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,

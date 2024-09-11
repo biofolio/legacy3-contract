@@ -424,6 +424,8 @@ export async function signAndSendTx(
   let transaction = anchor.web3.VersionedTransaction.deserialize(
     Buffer.from(serialized_tx!!, 'base64'),
   );
+  console.log(transaction.message.staticAccountKeys.map((k) => k.toString()));
+
   Object.keys(signatures).forEach((key) => {
     console.log('key', key);
     transaction.addSignature(
@@ -432,19 +434,25 @@ export async function signAndSendTx(
     );
   });
 
-  if (signTransaction) {
-    transaction = await signTransaction(transaction);
-  } else {
-    transaction.sign([...signers]);
-  }
-
   const simulateTx = await connection.simulateTransaction(transaction, {
-    sigVerify: true,
+    sigVerify: false,
     commitment: 'processed',
   });
 
   if (simulateTx.value.err) {
     console.log(JSON.stringify(simulateTx, null, 2));
+    throw new anchor.web3.SendTransactionError({
+      action: 'simulate',
+      signature: '',
+      transactionMessage: simulateTx.value.err.toString(),
+      logs: simulateTx.value.logs ?? [],
+    });
+  }
+
+  if (signTransaction) {
+    transaction = await signTransaction(transaction);
+  } else {
+    transaction.sign([...signers]);
   }
 
   const txh = Buffer.from(transaction.serialize()).toString('base64');

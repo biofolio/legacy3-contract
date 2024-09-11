@@ -25,8 +25,7 @@ const mintOperator = anchor.web3.Keypair.fromSecretKey(
   const legacy3 = new Legacy3(connection, DEVNET.PROGRAM_ID);
 
   const isActive = true;
-  // const role = { operator: {} };
-  const role = { minter: {} };
+  const role = { operator: {} };
 
   const ix = await legacy3.setRole(
     owner.publicKey,
